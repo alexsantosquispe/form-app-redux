@@ -1,0 +1,12 @@
+import type { Control, FieldValues } from 'react-hook-form';
+
+export interface InputProps {
+  label: string;
+  name: string;
+  control: Control<FieldValues>;
+  placeholder?: string;
+  type?: string;
+  errorMessage?: string;
+  isDisabled?: boolean;
+  isRequired?: boolean;
+}
