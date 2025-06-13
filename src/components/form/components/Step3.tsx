@@ -10,7 +10,7 @@ import {
   type MultiStepFormValues,
   type StepProps
 } from '../MultiStepForm.types';
-import { InputField } from '../../atoms/InputField';
+import { TextAreaField } from '../../atoms/TextAreaField';
 
 export const Step3 = ({
   stepTitle,
@@ -26,28 +26,29 @@ export const Step3 = ({
         <h2 className="text-3xl font-bold">{stepTitle}</h2>
       </div>
 
-      <InputField
+      <TextAreaField
+        label="Other"
         control={control as unknown as Control<FieldValues>}
-        label="Address"
-        placeholder="Enter address"
-        name={FORM_NAMES_MAP.ADDRESS}
+        name={FORM_NAMES_MAP.OTHER}
+        placeholder="Enter description..."
       />
 
-      <InputField
-        control={control as unknown as Control<FieldValues>}
-        label="Zip Code"
-        placeholder="Zip code"
-        name={FORM_NAMES_MAP.ZIP_CODE}
-      />
+      <div className="flex w-full justify-start gap-x-4">
+        <input
+          type="checkbox"
+          id={FORM_NAMES_MAP.TERMS}
+          name={FORM_NAMES_MAP.TERMS}
+        />
+        <label
+          htmlFor={FORM_NAMES_MAP.TERMS}
+          className="text-sm text-neutral-500"
+        >
+          I have read and agree to the{' '}
+          <span className="text-black">Terms of service</span>
+        </label>
+      </div>
 
-      <InputField
-        control={control as unknown as Control<FieldValues>}
-        label="City"
-        placeholder="Enter city name"
-        name={FORM_NAMES_MAP.CITY_STATE}
-      />
-
-      <Button label="Continue" className="mt-6" />
+      <Button label="Submit" className="mt-6" type="submit" />
     </div>
   );
 };

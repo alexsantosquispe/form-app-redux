@@ -14,7 +14,7 @@ import { InputField } from '../../atoms/InputField';
 
 export const Step2 = ({
   stepTitle,
-  currentStepNumber: currentStep,
+  currentStepNumber,
   totalSteps
 }: StepProps) => {
   const { control } = useFormContext<MultiStepFormValues>();
@@ -22,9 +22,16 @@ export const Step2 = ({
   return (
     <div className="flex w-full flex-col gap-6">
       <div className="flex flex-col py-4">
-        <span className="text-sm">{`Step ${currentStep}/${totalSteps}`}</span>
+        <span className="text-sm">{`Step ${currentStepNumber}/${totalSteps}`}</span>
         <h2 className="text-3xl font-bold">{stepTitle}</h2>
       </div>
+
+      <InputField
+        control={control as unknown as Control<FieldValues>}
+        label="Phone"
+        placeholder="Enter your phone number"
+        name={FORM_NAMES_MAP.ADDRESS}
+      />
 
       <InputField
         control={control as unknown as Control<FieldValues>}
@@ -33,19 +40,21 @@ export const Step2 = ({
         name={FORM_NAMES_MAP.ADDRESS}
       />
 
-      <InputField
-        control={control as unknown as Control<FieldValues>}
-        label="Zip Code"
-        placeholder="Zip code"
-        name={FORM_NAMES_MAP.ZIP_CODE}
-      />
+      <div className="flex gap-6">
+        <InputField
+          control={control as unknown as Control<FieldValues>}
+          label="Zip Code"
+          placeholder="Zip code"
+          name={FORM_NAMES_MAP.ZIP_CODE}
+        />
 
-      <InputField
-        control={control as unknown as Control<FieldValues>}
-        label="City"
-        placeholder="Enter city name"
-        name={FORM_NAMES_MAP.CITY_STATE}
-      />
+        <InputField
+          control={control as unknown as Control<FieldValues>}
+          label="City"
+          placeholder="Enter city name"
+          name={FORM_NAMES_MAP.CITY_STATE}
+        />
+      </div>
 
       <Button label="Continue" className="mt-6" />
     </div>

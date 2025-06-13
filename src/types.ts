@@ -10,3 +10,8 @@ export interface InputProps {
   isDisabled?: boolean;
   isRequired?: boolean;
 }
+
+export type TextAreaProps = Omit<InputProps, 'type'> & {
+  rows?: number;
+  cols?: number;
+};
