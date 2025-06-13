@@ -1,26 +1,30 @@
 import { ArrowRight } from '../../icons/ArrowRight';
 import cn from 'clsx';
+import { useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 interface StepperProps {
-  steps: string[];
-  currentStep: string;
-  setCurrentStep: (setSelected: string) => void;
+  steps: { id: string; title: string }[];
+  onStepSelected: (stepId: string) => void;
 }
 
-export const Stepper = ({
-  steps,
-  currentStep,
-  setCurrentStep
-}: StepperProps) => {
+export const Stepper = ({ steps, onStepSelected }: StepperProps) => {
+  const [currentStep, setCurrentStep] = useState<string>(steps[0].id);
+
+  const handleStepSelected = (id: string) => {
+    onStepSelected(id);
+    setCurrentStep(id);
+  };
+
   return (
     <div className="flex w-fit justify-center self-center border-b border-gray-200 py-4">
-      {steps.map((title, index) => {
+      {steps.map(({ id, title }, index) => {
         const stepNumber = index + 1;
-        const isCurrentStep = title === currentStep;
+        const isCurrentStep = id === currentStep;
+
         return (
           <div
-            key={`${title}-${index}`}
+            key={`${id}-${index}`}
             className="flex items-center justify-center text-base text-neutral-400"
           >
             <button
@@ -28,9 +32,7 @@ export const Stepper = ({
                 'group flex cursor-pointer items-center gap-x-4 px-4 py-2 hover:text-black',
                 cn({ 'text-black': isCurrentStep })
               )}
-              onClick={() => {
-                setCurrentStep(title);
-              }}
+              onClick={() => handleStepSelected(id)}
             >
               <span
                 className={twMerge(

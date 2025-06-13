@@ -1,10 +1,10 @@
 import {
   FORM_NAMES_MAP,
-  type FormControlledValues
+  type MultiStepFormValues
 } from './MultiStepForm.types';
 import { z, ZodType } from 'zod';
 
-export const FormSchema: ZodType<FormControlledValues> = z.object({
+export const FormSchema: ZodType<MultiStepFormValues> = z.object({
   [FORM_NAMES_MAP.FIRST_NAME]: z
     .string()
     .min(1, { message: 'First name is required' }),

@@ -1,62 +1,45 @@
-import { FORM_NAMES_MAP } from './MultiStepForm.types';
-import { FormSchema } from './MultiStepForm.schema';
-import { InputField } from '../atoms/InputField';
-import { useForm, type Control, type FieldValues } from 'react-hook-form';
+import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button } from '../atoms/Button';
+import { FormSchema } from './MultiStepForm.schema';
+import { Step1 } from './components/Step1';
+import { Step2 } from './components/Step2';
+import { Stepper } from '../atoms/Stepper';
+import { useState, type ReactNode } from 'react';
+import type { MultiStepFormValues } from './MultiStepForm.types';
+import { Step3 } from './components/Step3';
 
-interface FormControlledProps {
-  steps: string[];
-  currentStep: string;
-}
+const STEPS = [
+  { id: 'personal', title: 'Personal Info' },
+  { id: 'contact', title: 'Contact Info' },
+  { id: 'additional', title: 'Additional Info' }
+];
 
-export const FormControlled = ({ steps, currentStep }: FormControlledProps) => {
-  const { control } = useForm({
+const STEPS_MAP: { [key: string]: ReactNode } = {
+  personal: (
+    <Step1 stepTitle="Personal Info" currentStepNumber={1} totalSteps={3} />
+  ),
+  contact: (
+    <Step2 stepTitle="Contact Info" currentStepNumber={2} totalSteps={3} />
+  ),
+  additional: (
+    <Step3 stepTitle="Additional Info" currentStepNumber={3} totalSteps={3} />
+  )
+};
+
+export const MultiStepForm = () => {
+  const [stepId, setStepId] = useState<string>(STEPS[0].id);
+  const methods = useForm<MultiStepFormValues>({
     resolver: zodResolver(FormSchema)
   });
 
   return (
-    <form className="flex w-[28rem] self-center p-10">
-      <div className="flex w-full flex-col gap-6">
-        <div className="flex flex-col py-4">
-          <span className="text-sm">{`Step ${steps.indexOf(currentStep) + 1}/${steps.length}`}</span>
-          <h1 className="text-3xl font-bold">{currentStep}</h1>
-        </div>
-
-        <div className="flex w-full gap-6">
-          <InputField
-            control={control as unknown as Control<FieldValues>}
-            label="First Name"
-            placeholder="First Name"
-            name={FORM_NAMES_MAP.FIRST_NAME}
-          />
-
-          <InputField
-            control={control as unknown as Control<FieldValues>}
-            label="Last Name"
-            placeholder="Last Name"
-            name={FORM_NAMES_MAP.LAST_NAME}
-          />
-        </div>
-
-        <InputField
-          control={control as unknown as Control<FieldValues>}
-          type="date"
-          label="Date of Birth"
-          placeholder="enter date"
-          name={FORM_NAMES_MAP.DATE_OF_BIRTH}
-        />
-
-        <InputField
-          control={control as unknown as Control<FieldValues>}
-          label="Email"
-          type="email"
-          placeholder="someone@gmail.com"
-          name={FORM_NAMES_MAP.EMAIL}
-        />
-
-        <Button label="Continue" className="mt-6" />
+    <FormProvider {...methods}>
+      <div className="flex w-full flex-col">
+        <Stepper steps={STEPS} onStepSelected={setStepId} />
+        <form className="flex w-[28rem] self-center py-10">
+          {stepId ? STEPS_MAP[stepId] : null}
+        </form>
       </div>
-    </form>
+    </FormProvider>
   );
 };

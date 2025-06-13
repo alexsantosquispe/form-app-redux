@@ -11,7 +11,7 @@ export const FORM_NAMES_MAP = {
   TERMS: 'terms'
 } as const;
 
-export type FormControlledValues = {
+export type MultiStepFormValues = {
   [FORM_NAMES_MAP.FIRST_NAME]: string;
   [FORM_NAMES_MAP.LAST_NAME]: string;
   [FORM_NAMES_MAP.DATE_OF_BIRTH]: string;
@@ -23,3 +23,9 @@ export type FormControlledValues = {
   [FORM_NAMES_MAP.OTHER]: string;
   [FORM_NAMES_MAP.TERMS]: boolean;
 };
+
+export interface StepProps {
+  stepTitle: string;
+  currentStepNumber: number;
+  totalSteps: number;
+}
