@@ -36,7 +36,7 @@ export const MultiStepForm = () => {
     <FormProvider {...methods}>
       <div className="flex w-full flex-col">
         <Stepper steps={STEPS} onStepSelected={setStepId} />
-        <form className="flex w-[28rem] self-center py-10">
+        <form className="flex max-w-[25rem] self-center py-10">
           {stepId ? STEPS_MAP[stepId] : null}
         </form>
       </div>
