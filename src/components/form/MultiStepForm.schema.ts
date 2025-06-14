@@ -1,8 +1,9 @@
+import { z, ZodType } from 'zod';
+
 import {
   FORM_NAMES_MAP,
   type MultiStepFormValues
 } from './MultiStepForm.types';
-import { z, ZodType } from 'zod';
 
 export const FormSchema: ZodType<MultiStepFormValues> = z.object({
   [FORM_NAMES_MAP.FIRST_NAME]: z
